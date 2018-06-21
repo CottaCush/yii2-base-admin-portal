@@ -1,0 +1,32 @@
+{
+  "name": "Yii2-base-admin-poratl",
+  "description": "A Yii 2 Base Admin Portal Template",
+  "main": "gulpfile.js",
+  "authors": [
+    "Cotta & Cush Developers <developers@cottacush.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "starter",
+    "kit",
+    "starter-kit",
+    "front-end",
+    "web",
+    "development"
+  ],
+  "homepage": "https://github.com/CottaCush/yii2-base-admin-portal",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fastclick": "^1.0.6",
+    "jquery-slimscroll": "^1.3.8",
+    "keyboard-submit": "CottaCush/keyboard-submit"
+  }
+}
