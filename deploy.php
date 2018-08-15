@@ -15,7 +15,7 @@ serverList('deploy/servers.yml');
 
 
 set('writable_dirs', ['app/runtime', 'app/logs', 'app/web/assets']);
-set('shared', ['app/runtime', 'app/logs', 'vendor']);
+set('shared_dirs', ['app/runtime', 'app/logs', 'vendor']);
 
 set('repository', '{{REPO_URL}}');
 
@@ -32,13 +32,6 @@ task('deploy:install_node_dependencies', function () {
     run('cd {{release_path}} && ./node_modules/.bin/gulp build --env {{APPLICATION_ENV}}');
 })->desc('Installing Node Dependencies');
 
-
-/**
- * Run migrations
- */
-task('deploy:run_migrations', function () {
-    run('cd {{release_path}}/vendor/cottacush/spar-db-migrations && DB_HOST={{DB_HOST}} DB_NAME={{DB_NAME}} DB_USERNAME={{DB_USERNAME}} DB_PASSWORD={{DB_PASSWORD}} REDIS_HOST={{REDIS_HOST}} REDIS_PORT={{REDIS_PORT}} REDIS_DATABASE={{REDIS_DATABASE}} DEFAULT_ADMIN_EMAIL={{DEFAULT_ADMIN_EMAIL}} DEFAULT_ADMIN_PASSWORD={{DEFAULT_ADMIN_PASSWORD}} APPLICATION_ENV={{APPLICATION_ENV}} ant update-migrations -DPHP_EXECUTABLE={{PHP_EXECUTABLE}}');
-})->desc('Run migrations');
 
 /** Yii2 composer setup */
 task('deploy:yii2_composer_config', function () {
