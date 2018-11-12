@@ -10,7 +10,7 @@ use CottaCush\Yii2\Assets\AssetBundle;
  */
 class IoniconsAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/Ionicons';
+    public $sourcePath = '@npm/ionicons';
 
     public $css = [
         'css/ionicons.css'

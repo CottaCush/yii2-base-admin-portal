@@ -78,7 +78,10 @@ $config = [
             'class' => 'app\modules\admin\Module',
         ],
     ],
-    'vendorPath' => dirname(__DIR__) . "/../vendor"
+    'vendorPath' => dirname(__DIR__) . "/../vendor",
+    'aliases' => [
+        '@npm'   => dirname(__DIR__) . "/../node_modules",
+    ]
 ];
 
 if (YII_ENV_DEV) {
