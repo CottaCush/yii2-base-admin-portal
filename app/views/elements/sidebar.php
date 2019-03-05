@@ -14,6 +14,11 @@ use yii\helpers\Html;
             'link' => ['/default']
         ],
         [
+            'name' => 'Invites',
+            'icon' => 'paper-plane',
+            'link' => ['/invite']
+        ],
+        [
             'name' => 'Menu 2',
             'icon' => 'user',
             'link' => ['/default'],

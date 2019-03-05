@@ -19,6 +19,7 @@ class AppAsset extends BaseAsset
     ];
     public $depends = [
         'app\assets\FastClickAsset',
+        'CottaCush\Yii2\Assets\AppModuleAsset',
         'app\assets\JquerySlimScrollAsset',
         'app\assets\FontAwesomeAsset',
         'yii\web\JqueryAsset',
