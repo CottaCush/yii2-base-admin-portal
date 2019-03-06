@@ -3,6 +3,7 @@
 namespace app\assets;
 
 use CottaCush\Yii2\Assets\AssetBundle;
+
 /**
  * Class IoniconsAsset
  * @author Damilola Olaleye <damilola@cottacush.com>

@@ -10,8 +10,8 @@ use CottaCush\Yii2\Assets\ToastrNotificationAsset;
 use CottaCush\Yii2\Helpers\Html;
 use yii\helpers\ArrayHelper;
 
-ToastrNotificationAsset::register($this);
 AppAsset::register($this);
+ToastrNotificationAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
