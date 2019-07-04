@@ -8,6 +8,7 @@ const gulp = require('gulp'),
     sass = require('gulp-sass'),
     postcss = require('gulp-postcss'),
     rename = require('gulp-rename'),
+    babel = require("gulp-babel"),
     rimraf = require('rimraf'),
     sourcemaps = require('gulp-sourcemaps'),
     path = require('path'),
@@ -29,7 +30,7 @@ const shouldAddSourcemaps = config.sourcemaps,
 
 
 /* Declare our gulp tasks */
-gulp.task('build', parallel(series(styles, minifyStyles), images));
+gulp.task('build', parallel(series(styles, minifyStyles), images, buildScripts));
 gulp.task('default', series('build', watch));
 
 /* Describe our gulp tasks */
@@ -65,14 +66,38 @@ function minifyStyles(done) {
 minifyStyles.description = 'Minify CSS files';
 
 
-function images() {
+function images(done) {
     let iConfig = config.images,
         sourceDir = iConfig.sourceDir,
         destDir = iConfig.destinationDir;
 
-    return minifyImages(sourceDir, destDir);
+    if (iConfig.shouldMinify) {
+        return minifyImages(sourceDir, destDir);
+    }
+    done();
 }
 images.description = 'Minify images back into the same (source) folder';
+
+function buildScripts(done) {
+    if (config.scripts.shouldTranspile) {
+        return gulp.src(config.scripts.sourceFiles)
+            .pipe(babel({
+                presets: [
+                    [
+                        '@babel/preset-env',
+                        {
+                            // Specify minimum browser versions supported. Transpiles to es2015 if no targets are provided
+                            // https://babeljs.io/docs/en/babel-preset-env#how-does-it-work
+                            "targets": {}
+                        }
+                    ]
+                ]
+            }))
+            .pipe(gulp.dest(config.scripts.destinationDir));
+    }
+    done()
+}
+buildScripts.description = 'Minify scripts back into the same (source) folder';
 
 
 function watch(done) {
