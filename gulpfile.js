@@ -88,7 +88,8 @@ function buildScripts(done) {
                         {
                             // Specify minimum browser versions supported. Transpiles to es2015 if no targets are provided
                             // https://babeljs.io/docs/en/babel-preset-env#how-does-it-work
-                            "targets": {}
+                            "targets": {},
+                            "modules": false  // toggle to use strict mode in generated es2015
                         }
                     ]
                 ]
