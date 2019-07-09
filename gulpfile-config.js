@@ -16,11 +16,13 @@ var config = {
         ]
     },
     scripts: {
+        shouldTranspile: true, // set to true/false to transpile higher javascript versions
         sourceDir: "./app/web/js",
         sourceFiles: ["./app/web/js/**/*.js"],
-        destinationDir: "./app/web/js"
+        destinationDir: "./app/web/js-dist"
     },
     images: {
+        shouldMinify: false,
         sourceDir: "./app/web/images",
         sourceFiles: "./app/web/images/**/*",
         destinationDir: "./" // save minified images in the same directory
