@@ -11,6 +11,6 @@ use CottaCush\Yii2\Widgets\BaseUserAvatar;
  */
 class UserAvatar extends BaseUserAvatar
 {
-    protected $fallbackImage = '/images/avatars/default.png';
-    protected $baseClass = ['base' => 'img-circle'];
+    protected string $fallbackImage = '/images/avatars/default.png';
+    protected array|string $baseClass = ['base' => 'img-circle'];
 }

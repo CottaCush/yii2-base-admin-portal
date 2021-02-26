@@ -5,7 +5,12 @@ namespace app\controllers;
 use app\exceptions\DataLoadException;
 use CottaCush\Yii2\Helpers\Html;
 use CottaCush\Yii2\Controller\BaseController as UtilsBaseController;
+use Yii;
+use yii\base\Action;
+use yii\base\ExitException;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
+use yii\web\BadRequestHttpException;
 
 /**
  * Class BaseController
@@ -22,7 +27,7 @@ class BaseController extends UtilsBaseController
      */
     public function flashError($message)
     {
-        \Yii::$app->session->setFlash('error', $message);
+        Yii::$app->session->setFlash('error', $message);
     }
 
     /**
@@ -32,14 +37,15 @@ class BaseController extends UtilsBaseController
      */
     public function flashSuccess($message)
     {
-        \Yii::$app->session->setFlash('success', $message);
+        Yii::$app->session->setFlash('success', $message);
     }
 
     /**
+     * @return int|string
+     * @throws InvalidConfigException
      * @author Kehinde Ladipo <kehinde.ladipo@cottacush.com>
-     * @return mixed
      */
-    public function getUserId()
+    public function getUserId(): int|string
     {
         return $this->getModuleUser()->id;
     }
@@ -50,7 +56,7 @@ class BaseController extends UtilsBaseController
      * @param bool $sticky
      * @return string
      */
-    public function showFlashMessages($sticky = false)
+    public function showFlashMessages($sticky = false): string
     {
         $timeout = $sticky ? 0 : 5000;
         $flashMessages = [];
@@ -70,25 +76,27 @@ class BaseController extends UtilsBaseController
     }
 
     /**
-     * @author Kehinde Ladipo <kehinde.ladipo@cottacush.com>
-     * @param \yii\base\Action $action
+     * @param Action $action
      * @return bool
+     * @throws BadRequestHttpException
+     * @author Kehinde Ladipo <kehinde.ladipo@cottacush.com>
      */
-    public function beforeAction($action)
+    public function beforeAction($action): bool
     {
         //$this->loginRequireBeforeAction();
         return parent::beforeAction($action);
     }
 
     /**
-     * @author Kehinde Ladipo <kehinde.ladipo@cottacush.com>
      * @param array $postData
      * @param string $className
      * @param null $sessionKey
-     * @throws DataLoadException
      * @return Model
+     * @throws DataLoadException
+     * @throws ExitException
+     * @author Kehinde Ladipo <kehinde.ladipo@cottacush.com>
      */
-    public function loadPostData(array $postData, $className, $sessionKey = null)
+    public function loadPostData(array $postData, string $className, $sessionKey = null): Model
     {
         $this->isPostCheck($this->getRequest()->referrer);
         /** @var Model $form */

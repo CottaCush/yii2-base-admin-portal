@@ -6,30 +6,32 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "require": {
-        "php": "~7.0",
-        "yiisoft/yii2": "~2.0.15.0",
+        "php": "~8.0",
+        "yiisoft/yii2": "~2.0.40",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-redis": "^2.0",
         "vlucas/phpdotenv": "^2.2",
         "lukasoppermann/http-status": "^2.0",
         "ogheo/yii2-htmlcompress": "^1.1",
-        "cottacush/yii2-utils":  "^2.1",
-        "cottacush/yii2-widgets": "^1.0",
-        "cottacush/yii2-user-auth": "^1.0"
+        "cottacush/yii2-utils":  "^3.0",
+        "cottacush/yii2-widgets": "^2.0",
+        "cottacush/yii2-user-auth": "^2.0",
+        "yiisoft/yii2-bootstrap4": "^2.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "cottacush/yii2-permissions-ext": "^3.0"
     },
     "require-dev": {
         "codeception/codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*",
-        "squizlabs/php_codesniffer": "2.*",
         "pdepend/pdepend" : "2.2.4",
         "phploc/phploc": "*",
         "phpmd/phpmd" : "@stable",
         "sebastian/phpcpd": "*",
         "theseer/phpdox": "*",
-        "phpunit/phpunit": "4.8"
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "process-timeout": 1800,
@@ -52,23 +54,5 @@
             "email": "kehinde.ladipo@cottacush.com",
             "role": "Software Engineer"
         }
-    ],
-    "extra": {
-        "yii\\composer\\Installer::postCreateProject": {
-            "setPermission": [
-                {
-                    "app/runtime": "0777",
-                    "app/web/assets": "0777",
-                    "yii": "0755"
-                }
-            ],
-            "generateCookieValidationKey": [
-                "app/config/web.php"
-            ]
-        },
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
-    }
+    ]
 }

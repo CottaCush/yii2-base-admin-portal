@@ -2,23 +2,12 @@
 
 namespace app\controllers;
 
-use app\constants\ErrorMessages;
-use app\constants\Messages;
-use app\exceptions\SparUserAuthenticationException;
-use app\exceptions\ValidateInviteTokenException;
 use app\models\ContactForm;
-use app\models\forms\ForgotPasswordForm;
-use app\models\forms\LoginForm;
-use app\models\forms\ResetPasswordForm;
-use app\models\forms\SignUpForm;
-use app\models\Invite;
-use app\models\SparUser;
-use app\models\UserCredential;
+use app\models\LoginForm;
 use app\services\DummyServiceInterface;
-use cottacush\userauth\exceptions\PasswordChangeException;
-use cottacush\userauth\exceptions\UserAuthenticationException;
-use cottacush\userauth\exceptions\UserCreationException;
 use Yii;
+use yii\web\ForbiddenHttpException;
+use yii\web\Response;
 
 class SiteController extends BaseController
 {
@@ -26,7 +15,7 @@ class SiteController extends BaseController
     const DEFAULT_URL = 'default/index';
 
     /** @var  DummyServiceInterface */
-    protected $dummyService;
+    protected DummyServiceInterface $dummyService;
 
     public function __construct($id, $module, DummyServiceInterface $dummyService, $config = [])
     {
@@ -34,7 +23,7 @@ class SiteController extends BaseController
         parent::__construct($id, $module, $config);
     }
 
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -43,7 +32,7 @@ class SiteController extends BaseController
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex(): Response
     {
         return $this->redirect(self::DEFAULT_URL);
     }
@@ -53,9 +42,9 @@ class SiteController extends BaseController
         return $this->dummyService->shout("Hello World");
     }
 
-    public function actionLogin()
+    public function actionLogin(): Response|string
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -67,14 +56,14 @@ class SiteController extends BaseController
     }
 
 
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
-    public function actionContact()
+    public function actionContact(): Response|string
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
@@ -87,7 +76,11 @@ class SiteController extends BaseController
         ]);
     }
 
-    public function actionAbout()
+    /**
+     * @return Response|string
+     * @throws ForbiddenHttpException
+     */
+    public function actionAbout(): Response|string
     {
         if ($this->getUser()->isGuest) {
             return $this->getUser()->loginRequired();
