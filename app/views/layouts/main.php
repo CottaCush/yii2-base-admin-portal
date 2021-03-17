@@ -35,7 +35,7 @@ ToastrNotificationAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrapper">
-    <?= $this->render('../elements/header', ['user' => Yii::$app->user->getIdentity()]); ?>
+    <?= $this->render('../elements/header', ['user' => (array) Yii::$app->user->getIdentity()]); ?>
     <?= $this->render('../elements/sidebar', ['user' => Yii::$app->user->getIdentity()]); ?>
 
     <div class="content-wrapper <?= ArrayHelper::getValue($this->params, 'content-wrapper-class'); ?>">

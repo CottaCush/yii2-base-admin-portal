@@ -9,7 +9,7 @@ namespace app\controllers;
  */
 class DefaultController extends BaseController
 {
-    public function actionIndex()
+    public function actionIndex(): string
     {
         return $this->render('index');
     }

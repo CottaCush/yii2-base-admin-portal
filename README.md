@@ -16,7 +16,7 @@
 
 ## Requirements
 
-The minimum requirement by this project template that your Web server supports PHP 7.0.
+The minimum requirement by this project template that your Web server supports PHP 8.0.
 
 ### Install via Composer
 
@@ -25,7 +25,7 @@ If you do not have [Composer](http://getcomposer.org/), you may install it by fo
 You can then install this project template using the following command:
 
 ~~~
-composer global require "fxp/composer-asset-plugin:~1.3"
+composer global require "fxp/composer-asset-plugin:~1.4"
 composer create-project --prefer-dist cottacush/yii2-base-admin-portal new_project
 ~~~
 

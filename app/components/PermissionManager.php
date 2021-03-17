@@ -6,7 +6,9 @@ use app\models\Permission;
 use app\models\Role;
 use app\models\Status;
 use cottacush\rbac\BasePermissionManager;
+use Throwable;
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -20,21 +22,21 @@ class PermissionManager extends BasePermissionManager
     const KEY_USER_ROLE = '_user_role';
 
     /**
+     * @return array
      * @author Olawale Lawal <wale@cottacush.com>
-     * @return array|\yii\db\ActiveRecord[]
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return Role::find()->asArray()->all();
     }
 
     /**
      * Gets a role using the role key
-     * @author Olawale Lawal <wale@cottacush.com>
      * @param $key
-     * @return array|null|\yii\db\ActiveRecord
+     * @return array|null|ActiveRecord
+     *@author Olawale Lawal <wale@cottacush.com>
      */
-    public function getRole($key)
+    public function getRole($key): array|null|ActiveRecord
     {
         $cache = Yii::$app->cache;
         $role = $cache->get($key);
@@ -46,33 +48,32 @@ class PermissionManager extends BasePermissionManager
     }
 
     /**
-     * @author Olawale Lawal <wale@cottacush.com>
      * @param $roleId
-     * @return array|null|\yii\db\ActiveRecord
+     * @return array|null|ActiveRecord
+     *@author Olawale Lawal <wale@cottacush.com>
      */
-    public function getRoleById($roleId)
+    public function getRoleById($roleId): array|null|ActiveRecord
     {
         return Role::find()->where(['id' => $roleId, 'status' => Status::STATUS_ACTIVE])->limit(1)->one();
     }
 
     /**
-     * @author Olawale Lawal <wale@cottacush.com>
      * @param $permissionId
-     * @return array|null|\yii\db\ActiveRecord
+     * @return array|null|ActiveRecord
+     *@author Olawale Lawal <wale@cottacush.com>
      */
-    public function getPermissionById($permissionId)
+    public function getPermissionById($permissionId): array|null|ActiveRecord
     {
         return Permission::find()->where(['id' => $permissionId, 'status' => Status::STATUS_ACTIVE])
             ->limit(1)->one();
     }
 
     /**
+     * @return array|ActiveRecord|null
+     * @throws Throwable
      * @author Olawale Lawal <wale@cottacush.com>
-     * @return array|mixed|null|\yii\db\ActiveRecord
-     * @throws \Exception
-     * @throws \Throwable
      */
-    public function getUserRole()
+    public function getUserRole(): array|null|ActiveRecord
     {
         $user = Yii::$app->getUser()->getIdentity();
         $roleKey = ArrayHelper::getValue($user, 'role.key');
@@ -80,12 +81,11 @@ class PermissionManager extends BasePermissionManager
     }
 
     /**
+     * @return array
+     * @throws Throwable
      * @author Olawale Lawal <wale@cottacush.com>
-     * @return array|mixed|\yii\db\ActiveRecord[]
-     * @throws \Exception
-     * @throws \Throwable
      */
-    public function getUserPermissions()
+    public function getUserPermissions(): array
     {
         /** @var Role $userRole */
         $userRole = $this->getUserRole();
@@ -93,33 +93,32 @@ class PermissionManager extends BasePermissionManager
     }
 
     /**
-     * @author Olawale Lawal <wale@cottacush.com>
      * @param $permissionKey
-     * @return bool|mixed
-     * @throws \Exception
-     * @throws \Throwable
+     * @return bool
+     * @throws Throwable
+     * @author Olawale Lawal <wale@cottacush.com>
      */
-    public function canAccess($permissionKey)
+    public function canAccess($permissionKey): bool
     {
         $permissions = array_column($this->getUserPermissions(), 'key');
         return in_array($permissionKey, $permissions);
     }
 
     /**
+     * @return array
      * @author Olawale Lawal <wale@cottacush.com>
-     * @return array|\yii\db\ActiveRecord[]
      */
-    public function getPermissions()
+    public function getPermissions(): array
     {
         return Permission::find()->where(['status' => 1])->asArray()->all();
     }
 
     /**
-     * @author Adegoke Obasa <goke@cottacush.com>
      * @param $key
-     * @return mixed
+     * @return bool
+     *@author Adegoke Obasa <goke@cottacush.com>
      */
-    public function getPermission($key)
+    public function getPermission($key): bool
     {
         // TODO: Implement getPermission() method.
         return true;

@@ -16,7 +16,7 @@ class IoniconsAsset extends AssetBundle
     public $css = [
         'css/ionicons.css'
     ];
-    public $productionCss = [
+    public array $productionCss = [
         'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'
     ];
 }

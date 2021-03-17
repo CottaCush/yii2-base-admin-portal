@@ -7,6 +7,7 @@ use app\exceptions\InviteCreationException;
 use app\exceptions\InviteTokenValidationException;
 use CottaCush\Yii2\Date\DateFormat;
 use CottaCush\Yii2\Date\DateUtils;
+use yii\db\ActiveQuery;
 use yii\validators\EmailValidator;
 
 /**
@@ -26,12 +27,12 @@ use yii\validators\EmailValidator;
  */
 class Invite extends BaseModel
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'invites';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email', 'role_key', 'status', 'created_by'], 'required'],
@@ -43,7 +44,7 @@ class Invite extends BaseModel
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -54,48 +55,48 @@ class Invite extends BaseModel
         ];
     }
 
-    public function getSender()
+    public function getSender(): ActiveQuery
     {
-        return $this->hasOne(UserCredential::className(), ['id' => 'created_by']);
+        return $this->hasOne(UserCredential::class, ['id' => 'created_by']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getRoleObj()
+    public function getRoleObj(): ActiveQuery
     {
-        return $this->hasOne(Role::className(), ['key' => 'role_key']);
+        return $this->hasOne(Role::class, ['key' => 'role_key']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getStatusObj()
+    public function getStatusObj(): ActiveQuery
     {
-        return $this->hasOne(Status::className(), ['key' => 'status']);
+        return $this->hasOne(Status::class, ['key' => 'status']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): ActiveQuery
     {
-        return $this->hasOne(AppUser::className(), ['user_auth_id' => 'created_by']);
+        return $this->hasOne(AppUser::class, ['user_auth_id' => 'created_by']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): ActiveQuery
     {
-        return $this->hasOne(AppUser::className(), ['username' => 'updated_by']);
+        return $this->hasOne(AppUser::class, ['username' => 'updated_by']);
     }
 
     /**
      * @author Taiwo Ladipo <taiwo.ladipo@cottacush.com>
      * @return bool
      */
-    public function isCancelled()
+    public function isCancelled(): bool
     {
         return $this->status == Status::STATUS_CANCELLED;
     }
@@ -104,7 +105,7 @@ class Invite extends BaseModel
      * @author Taiwo Ladipo <taiwo.ladipo@cottacush.com>
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status == Status::STATUS_PENDING;
     }
@@ -114,25 +115,26 @@ class Invite extends BaseModel
      * @param $email
      * @return string
      */
-    public static function getInviteToken($email)
+    public static function getInviteToken($email): string
     {
         return md5($email . date(DateFormat::FORMAT_MYSQL_STYLE));
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getRole()
+    public function getRole(): ActiveQuery
     {
-        return $this->hasOne(Role::className(), ['key' => 'role_key']);
+        return $this->hasOne(Role::class, ['key' => 'role_key']);
     }
 
     /**
-     * @author Adeyemi Olaoye <yemi@cottacush.com>
      * @param $token
      * @return static
+     * @throws InviteTokenValidationException
+     * @author Adeyemi Olaoye <yemi@cottacush.com>
      */
-    public static function validateToken($token)
+    public static function validateToken($token): static
     {
         $invite = Invite::findOne(['invite_token' => $token]);
         if (!$invite) {
@@ -155,7 +157,7 @@ class Invite extends BaseModel
      * @param $emails
      * @return bool
      */
-    public static function validateEmails($emails)
+    public static function validateEmails($emails): bool
     {
         $validator = new EmailValidator();
         foreach ($emails as $email) {
@@ -171,7 +173,7 @@ class Invite extends BaseModel
      * @param array $emails
      * @return bool
      */
-    public static function checkDuplicateInviteEmails(array $emails)
+    public static function checkDuplicateInviteEmails(array $emails): bool
     {
         return self::find()
             ->where(['IN', 'email', $emails])
@@ -186,7 +188,7 @@ class Invite extends BaseModel
      * @return bool
      * @throws InviteCreationException
      */
-    public static function createInvites($emails, $role, $createdBy)
+    public static function createInvites($emails, $role, $createdBy): bool
     {
         if (!array_unique($emails)) {
             throw new InviteCreationException(Messages::DUPLICATE_EMAILS_IN_INVITES);
@@ -221,19 +223,19 @@ class Invite extends BaseModel
      * @param $email
      * @return string
      */
-    public static function generateInviteToken($email)
+    public static function generateInviteToken($email): string
     {
         return md5($email . date(DateFormat::FORMAT_MYSQL_STYLE));
     }
 
     /**
-     * @author Taiwo Ladipo <taiwo.ladipo@cottacush.com>
      * @param null $status
      * @param null $role
      * @param null $createdBy
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
+     *@author Taiwo Ladipo <taiwo.ladipo@cottacush.com>
      */
-    public static function getInvites($status = null, $role = null, $createdBy = null)
+    public static function getInvites($status = null, $role = null, $createdBy = null): ActiveQuery
     {
         return self::find()
             ->filterWhere([self::tableName() . '.status' => $status])

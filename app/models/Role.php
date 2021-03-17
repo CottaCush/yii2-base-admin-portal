@@ -12,6 +12,7 @@ namespace app\models;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @method getCachedPermissions()
  */
 class Role extends BaseModel
 {
